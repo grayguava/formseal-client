@@ -1,0 +1,26 @@
+{
+  "name": "@formseal/client",
+  "description": "Drop-in client-side encrypted contact form.",
+  "license": "MIT",
+  "bin": {
+    "@formseal/client": "./init.js"
+  },
+  "files": [
+    "src/",
+    "init.js"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "formseal",
+    "encrypted",
+    "contact-form",
+    "libsodium",
+    "privacy"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grayguava/formseal-client.git"
+  }
+}
