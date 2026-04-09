@@ -1,6 +1,5 @@
 # commands/init.py
 # Scaffolds ./formseal-embed/ into the current working directory.
-# After scaffolding, prompts for endpoint and public key (both skippable).
 
 import shutil
 from pathlib import Path

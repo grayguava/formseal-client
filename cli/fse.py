@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # fse.py
 # Entry point. Parses args and routes to the correct command.
-# Adding a new command:
-#   1. Create commands/newcommand.py with a run() function
-#   2. Import it below
-#   3. Add a case to the router
 
 import sys
 import os
@@ -28,12 +24,13 @@ from logo import LOGO
 
 from commands import init as cmd_init
 from commands import configure as cmd_configure
+from commands import update as cmd_update
+from commands import version as cmd_version
 from commands import help as cmd_help
 from commands import about as cmd_about
 
 
 # -- intro --
-
 def intro():
     br()
     print(f"{C} \u250c\u2500 {R}{W}formseal-embed{R}")
@@ -55,7 +52,6 @@ def intro():
 
 
 # -- router --
-
 def main():
     args    = sys.argv[1:]
     command = args[0] if args else None
@@ -68,6 +64,13 @@ def main():
             sub = args[1] if len(args) > 1 else None
             cmd_configure.run(sub, args[2:])
 
+        case "-f":
+            cmd_configure.run("-f", args[1:])
+
+        case "update":
+            sub = args[1] if len(args) > 1 else None
+            cmd_update.run(sub, args[2:])
+
         case "doctor":
             fail("fse doctor is not yet available.")
 
@@ -79,6 +82,9 @@ def main():
 
         case "--about":
             cmd_about.run()
+
+        case "--version" | "version" | "-v":
+            cmd_version.run()
 
         case _:
             fail(

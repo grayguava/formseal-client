@@ -1,7 +1,5 @@
 // fse.validate.js
 // Validates a data object against FSE.fields validation rules.
-// No DOM access. No crypto. Pure validation logic.
-// Depends on: FSE (global).
 
 var FSEValidate = (function () {
 

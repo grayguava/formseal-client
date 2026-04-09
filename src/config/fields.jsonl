@@ -1,3 +1,3 @@
-{"name": {"required": true, "maxLength": 100, "enabled": true}}
-{"email": {"type": "email", "required": true, "maxLength": 200, "enabled": true}}
-{"message": {"type": "text", "required": true, "maxLength": 1000, "enabled": true}}
+{"name": {"required": true, "maxLength": 100}}
+{"email": {"type": "email", "required": true, "maxLength": 200}}
+{"message": {"type": "text", "required": true, "maxLength": 1000}}

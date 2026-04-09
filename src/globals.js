@@ -1,8 +1,4 @@
 // globals.js
-// Single entry point. Drop this one script tag in your HTML.
-//
-// Usage:
-//   <script src="formseal-embed/globals.js"></script>
 
 (function () {
   "use strict";

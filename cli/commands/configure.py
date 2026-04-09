@@ -1,12 +1,5 @@
 # commands/configure.py
-# Configure formseal-embed settings.
-# Usage:
-#   fse configure quick        - set endpoint + key
-#   fse configure field add <name> [options]
-#   fse configure field remove <name>
-#   fse configure field required <name> <true|false>
-#   fse configure field maxLength <name> <number>
-#   fse configure field type <name> <email|tel|text>
+# Configures formseal-embed settings.
 
 import re
 import json
@@ -99,7 +92,7 @@ def run(subcommand: str, args: list):
 
     if subcommand in ("quick", "q"):
         _run_quick()
-    elif subcommand in ("field", "fields", "f"):
+    elif subcommand in ("field", "fields", "f", "-f"):
         _run_field(args)
     else:
         fail(f"Unknown subcommand: {subcommand}\n" +
@@ -137,48 +130,53 @@ def _run_quick():
 
 def _run_field(args: list):
     if not args:
-        fail("Usage: fse configure field <add|remove|required|maxLength|type>")
+        fail("Usage: fse configure -f <add|rm|required|maxLen|type>")
 
     action = args[0]
 
-    if action == "add":
+    if action in ("add", "a"):
         _field_add(args[1:])
-    elif action in ("remove", "rm", "delete"):
+    elif action in ("remove", "rm", "r", "del", "delete"):
         _field_remove(args[1:])
-    elif action == "required":
+    elif action in ("required", "req"):
         _field_required(args[1:])
-    elif action in ("maxlength", "maxLength"):
+    elif action in ("maxlength", "maxLen"):
         _field_maxlength(args[1:])
-    elif action in ("type",):
+    elif action in ("type", "t"):
         _field_type(args[1:])
     else:
         fail(f"Unknown field action: {action}\n" +
-             f"           Use add, remove, required, maxLength, or type")
+             f"           Use add, rm, required, maxLen, or type")
 
 
 def _field_add(args: list):
     if not args:
-        fail("Usage: fse configure field add <name> [required:true] [maxLength:n] [type:email]")
+        fail("Usage: fse configure -f add <name> required:true type:email maxLen:n")
 
     name = args[0]
     fields = _load_fields_jsonl()
 
     is_update = name in fields
-    field = fields.get(name, {"enabled": True})
+    field = fields.get(name, {})
+    has_type = False
     for opt in args[1:]:
         if ":" in opt:
             k, v = opt.split(":", 1)
             if k == "required":
                 field["required"] = v.lower() == "true"
-            elif k in ("maxLength", "maxlength"):
+            elif k in ("maxLen", "maxlength", "maxLength"):
                 try:
                     field["maxLength"] = int(v)
                 except ValueError:
-                    fail(f"Invalid maxLength: {v}")
-            elif k in ("type",):
+                    fail(f"Invalid maxLen: {v}")
+            elif k in ("type", "t"):
                 if v not in ("email", "tel", "text"):
                     fail(f"Invalid type: {v}. Use email, tel, or text.")
                 field["type"] = v
+                has_type = True
+    
+    if not is_update and not has_type:
+        fail("type is required. Use type:email, type:tel, or type:text")
 
     fields[name] = field
     _save_fields_jsonl(fields)
@@ -208,62 +206,86 @@ def _field_remove(args: list):
 
 
 def _field_required(args: list):
-    if len(args) != 2:
-        fail("Usage: fse configure field required <name> <true|false>")
+    if len(args) < 2:
+        fail("Usage: fse configure -f required <name> required:true")
 
-    name, value = args
-    if value not in ("true", "false"):
-        fail("Use true or false")
-
+    name = args[0]
     fields = _load_fields_jsonl()
 
     if name not in fields:
         fail(f"Field {W}{name}{R} not found.")
 
-    fields[name]["required"] = value == "true"
+    found = False
+    for opt in args[1:]:
+        if ":" in opt:
+            k, v = opt.split(":", 1)
+            if k == "required":
+                fields[name]["required"] = v.lower() == "true"
+                found = True
+    
+    if not found:
+        fail("Use required:true or required:false")
+
     _save_fields_jsonl(fields)
 
     br()
-    row(">", f"{name}.required", value)
+    row(">", f"{name}.required", str(fields[name]["required"]))
 
 
 def _field_maxlength(args: list):
-    if len(args) != 2:
-        fail("Usage: fse configure field maxLength <name> <number>")
+    if len(args) < 2:
+        fail("Usage: fse configure -f maxLen <name> maxLen:100")
 
-    name, value = args
-    try:
-        maxlen = int(value)
-    except ValueError:
-        fail(f"Invalid number: {value}")
-
+    name = args[0]
     fields = _load_fields_jsonl()
 
     if name not in fields:
         fail(f"Field {W}{name}{R} not found.")
 
-    fields[name]["maxLength"] = maxlen
+    found = False
+    for opt in args[1:]:
+        if ":" in opt:
+            k, v = opt.split(":", 1)
+            if k in ("maxLen", "maxLength"):
+                try:
+                    fields[name]["maxLength"] = int(v)
+                    found = True
+                except ValueError:
+                    fail(f"Invalid maxLen: {v}")
+    
+    if not found:
+        fail("Use maxLen:number")
+
     _save_fields_jsonl(fields)
 
     br()
-    row(">", f"{name}.maxLength", str(maxlen))
+    row(">", f"{name}.maxLength", str(fields[name]["maxLength"]))
 
 
 def _field_type(args: list):
-    if len(args) != 2:
-        fail("Usage: fse configure field type <name> <email|tel|text>")
+    if len(args) < 2:
+        fail("Usage: fse configure -f type <name> type:email")
 
-    name, value = args
-    if value not in ("email", "tel", "text"):
-        fail(f"Invalid type: {value}. Use email, tel, or text.")
-
+    name = args[0]
     fields = _load_fields_jsonl()
 
     if name not in fields:
         fail(f"Field {W}{name}{R} not found.")
 
-    fields[name]["type"] = value
+    found = False
+    for opt in args[1:]:
+        if ":" in opt:
+            k, v = opt.split(":", 1)
+            if k in ("type", "t"):
+                if v not in ("email", "tel", "text"):
+                    fail(f"Invalid type: {v}. Use email, tel, or text.")
+                fields[name]["type"] = v
+                found = True
+    
+    if not found:
+        fail("Use type:email, type:tel, or type:text")
+
     _save_fields_jsonl(fields)
 
     br()
-    row(">", f"{name}.type", value)
+    row(">", f"{name}.type", fields[name]["type"])

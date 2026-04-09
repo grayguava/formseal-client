@@ -18,7 +18,6 @@ except:
     pass
 
 # -- ansi colors --
-
 RESET  = "\x1b[0m"
 BOLD   = "\x1b[1m"
 DIM    = "\x1b[2m"
@@ -33,20 +32,19 @@ WHITE  = "\x1b[37m"
 GRAY   = "\x1b[90m"
 
 # Semantic palette
-B = "\x1b[38;5;109m"  # muted green - arguments/placeholders
-C = "\x1b[38;5;117m"  # soft cyan - title, links, script tag
-M = "\x1b[38;5;141m"  # muted magenta - experimental sections
-G = "\x1b[38;5;244m"  # dim gray - descriptions
-Y = "\x1b[38;5;103m"  # muted purple - section headers
-S = "\x1b[38;5;112m"  # soft green - success states
-O = "\x1b[38;5;130m"  # dim orange - logo
-W = WHITE + BOLD      # bright white - commands
-D = DIM              # dim - secondary
-R = RESET            # reset
+B = "\x1b[38;5;109m"  
+C = "\x1b[38;5;117m"  
+M = "\x1b[38;5;141m" 
+G = "\x1b[38;5;244m" 
+Y = "\x1b[38;5;103m"  
+S = "\x1b[38;5;112m" 
+O = "\x1b[38;5;208m" 
+W = WHITE + BOLD    
+D = DIM          
+R = RESET  
 
 
 # -- primitives --
-
 def br():
     print()
 

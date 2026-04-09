@@ -10,7 +10,7 @@ def run():
     lines = LOGO.strip().split("\n")
     for i, line in enumerate(lines):
         if i == 0:
-            line = " " + line  # add leading space to first line
+            line = " " + line 
         print(f"{O}{line}{R}")
     br()
     print(f"  {W}Client-side encrypted contact forms.{R}")

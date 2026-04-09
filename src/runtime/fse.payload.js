@@ -1,6 +1,5 @@
 // fse.payload.js
 // Assembles the payload envelope { version, id, submitted_at, data }.
-// No DOM access. No crypto. Depends on: FSE (global).
 
 var FSEPayload = (function () {
 

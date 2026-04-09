@@ -1,6 +1,7 @@
 {
   "name": "@formseal/embed",
-  "description": "Drop-in client-side encrypted contact form.",
+  "version": "3.2.0",
+  "description": "Encrypted contact form that never exposes plaintext to your server",
   "license": "MIT",
   "bin": {
     "fse": "./cli/shim.js"

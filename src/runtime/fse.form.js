@@ -1,12 +1,4 @@
 // fse.form.js
-// Submit pipeline controller. Touches the DOM only for:
-//   - reading field values (by name attribute)
-//   - managing submit button state
-//   - writing validation errors to [data-fse-error="fieldname"] elements
-//   - writing status messages to the statusSelector element
-//
-// The dev owns all form markup. Formseal-embed owns none of it.
-//
 // Depends on: FSE, FSECrypto, FSEPayload, FSEValidate (all globals).
 
 var FSEForm = (function () {

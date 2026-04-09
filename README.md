@@ -4,13 +4,12 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/encryption-X25519-10b981?style=flat&labelColor=1e293b">
-  <img src="https://img.shields.io/badge/decryption-offline%20only-f59e0b?style=flat&labelColor=1e293b">
-  <img src="https://img.shields.io/badge/backend-blind-6366f1?style=flat&labelColor=1e293b">
+  <img src="https://img.shields.io/badge/decryption-under%20development-f59e0b?style=flat&labelColor=1e293b">
   <img src="https://img.shields.io/npm/v/@formseal/embed?style=flat&label=npm&labelColor=fff&color=cb0000">
   <img src="https://img.shields.io/badge/license-MIT-fc8181?style=flat&labelColor=1e293b">
 </p>
 <p align="center">
-  <img src="https://badge.socket.dev/npm/package/@formseal/embed/3.1.0">
+  <img src="https://badge.socket.dev/npm/package/@formseal/embed/3.1.1">
 </p>
 
 <p align="center">
@@ -19,7 +18,7 @@
 
 ---
 
-Form submissions are encrypted in the browser using X25519 sealed boxes before reaching any endpoint. The backend receives and stores opaque ciphertext only. Decryption is operator-controlled and happens offline, with your private key.
+Form submissions are encrypted in the browser using X25519 sealed boxes before reaching any endpoint. The backend receives and stores opaque ciphertext only. Decryption is operator-controlled.
 
 formseal is not a hosted service, dashboard, or SaaS product. It is a drop-in client-side utility.
 
@@ -37,20 +36,10 @@ fse init
 **Via GitHub release (zero toolchain)**
 
 1. Download the latest [release artifact](https://github.com/grayguava/formseal-embed/releases)
-2. Unzip → drop `formseal/` into your project
+2. Unzip → drop `formseal-embed/` into your project
 3. Edit `fse.config.js` manually
 
-> Both paths are identical. The CLI is a scaffolding tool that lives globally — your project only gets `./formseal-embed/`, which is static files with zero dependencies. No `node_modules`, no `package.json`, no build step. Works fully offline after setup. The CLI can be uninstalled anytime.
-
----
-
-## 60-second demo
-
-```bash
-npm install -g @formseal/embed && fse init && open sample/index.html
-```
-
-Or: download a release → unzip → open `sample/index.html`.
+> Prefer not to install globally? `npx @formseal/embed init` works, but subsequent `fse` commands won't be available — you'll need to edit `fse.config.js` manually.
 
 ---
 
@@ -90,7 +79,7 @@ The priority is **backward confidentiality** — protecting already-submitted da
 On submit, formseal:
 
 1. Collects field values from your form by `name` attribute
-2. Validates them against your field rules
+2. Validates them against your field rules (in `fields.jsonl`)
 3. Seals the payload with `crypto_box_seal` (Curve25519 + XSalsa20-Poly1305)
 4. POSTs raw ciphertext to your configured endpoint
 
@@ -133,8 +122,6 @@ Your endpoint stores the ciphertext. Only the holder of the private key can decr
 <script src="/formseal-embed/globals.js"></script>
 ```
 
-> Works fully offline after setup. No CDN, no runtime fetches, no external dependencies.
-
 ---
 
 ## Payload format
@@ -159,6 +146,27 @@ The entire object is sealed with `crypto_box_seal`. Your endpoint receives raw c
 
 ---
 
+## Field configuration
+
+Fields are defined in `fields.jsonl` (one JSON object per line):
+
+```
+{"name": {"required": true, "maxLength": 100}}
+{"email": {"required": true, "type": "email"}}
+{"message": {"required": true, "maxLength": 1000}}
+```
+
+Use the CLI to manage fields:
+
+```bash
+fse configure field add phone type:tel required:false
+fse configure field required name true
+fse configure field maxLength message 500
+fse configure field remove company
+```
+
+---
+
 ## CSS hooks
 
 | Selector | When |
@@ -174,7 +182,7 @@ The entire object is sealed with `crypto_box_seal`. Your endpoint receives raw c
 
 - No admin dashboard or inbox UI
 - No hosted service
-- No bundler or build step required
+- No bundled decryption tools (yet)
 - No npm dependencies at runtime
 
 These are intentional.
