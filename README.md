@@ -3,11 +3,14 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/encryption-X25519-10b981?style=flat-square&labelColor=1e293b&borderRadius=6px">
-  <img src="https://img.shields.io/badge/decryption-offline%20only-f59e0b?style=flat-square&labelColor=1e293b&borderRadius=6px">
-  <img src="https://img.shields.io/badge/backend-blind-6366f1?style=flat-square&labelColor=1e293b&borderRadius=6px">
-  <img src="https://img.shields.io/npm/v/@formseal/embed?style=flat-square&label=npm&labelColor=fff&color=cb0000&borderRadius=6px">
-  <img src="https://img.shields.io/badge/license-MIT-fc8181?style=flat-square&labelColor=1e293b&borderRadius=6px">
+  <img src="https://img.shields.io/badge/encryption-X25519-10b981?style=flat&labelColor=1e293b">
+  <img src="https://img.shields.io/badge/decryption-offline%20only-f59e0b?style=flat&labelColor=1e293b">
+  <img src="https://img.shields.io/badge/backend-blind-6366f1?style=flat&labelColor=1e293b">
+  <img src="https://img.shields.io/npm/v/@formseal/embed?style=flat&label=npm&labelColor=fff&color=cb0000">
+  <img src="https://img.shields.io/badge/license-MIT-fc8181?style=flat&labelColor=1e293b">
+</p>
+<p align="center">
+  <img src="https://badge.socket.dev/npm/package/@formseal/embed/3.1.0">
 </p>
 
 <p align="center">
