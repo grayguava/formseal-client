@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/badge/license-MIT-fc8181?style=flat&labelColor=1e293b">
 </p>
 <p align="center">
-  <img src="https://badge.socket.dev/npm/package/@formseal/embed/3.2.1">
+  <img src="https://badge.socket.dev/npm/package/@formseal/embed/3.3.0">
 </p>
 
 <p align="center">
