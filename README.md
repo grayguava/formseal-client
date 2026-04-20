@@ -23,20 +23,17 @@ formseal is not a hosted service, dashboard, or SaaS product. It is a drop-in cl
 
 ## Installation
 
-**Via npm (recommended)**
+**Via pipx (recommended)**
 
 ```bash
-npm install -g @formseal/embed
-fse init
+pipx install formseal-embed
 ```
 
-**Via GitHub release (zero toolchain)**
+**Via pip**
 
-1. Download the latest [release artifact](https://github.com/grayguava/formseal-embed/releases)
-2. Unzip → drop `formseal-embed/` into your project
-3. Edit `fse.config.js` manually
-
-> Prefer not to install globally? `npx @formseal/embed init` works, but subsequent `fse` commands won't be available — you'll need to edit `fse.config.js` manually.
+```bash
+pip install formseal-embed
+```
 
 ---
 
