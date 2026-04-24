@@ -19,78 +19,48 @@ fse init
 ```
 
 Creates a `formseal-embed/` directory with:
-- `config/fse.config.js` — main configuration
+- `config/fse.config.js` — endpoint, public key, origin
 - `config/fields.jsonl` — field definitions
 - `globals.js` — client-side encryption library
 
-**Interactive prompts:**
-
-1. Configure now? (y/n)
-2. POST endpoint (your encryption endpoint)
-3. X25519 public key (base64url encoded)
-
 ---
 
-### configure quick
+### set
 
-Set endpoint and public key in one go.
+Configure endpoint and public key.
 
 ```bash
-fse configure quick
+# Interactive mode — prompts until valid
+fse set endpoint
+fse set key
+
+# Non-interactive — value provided directly
+fse set endpoint https://your-api.example.com/submit
+fse set key ABcdEfGhIjKlMnOpQrStUvWxYz0123456789_
 ```
 
-Prompts for:
-1. POST endpoint URL
-2. X25519 public key (base64url)
+Press `Enter` with no input to skip.
 
 ---
 
-### configure field
+### field
 
 Manage form fields.
 
 ```bash
-# Add a field
 fse field add <name> type:<type>
-
-# Remove a field
 fse field remove <name>
 ```
 
-**Field types:** `text`, `email`, `textarea`, `number`, `tel`
+**Field types:** `text`, `email`, `tel`
 
 **Examples:**
 
 ```bash
-fse field add name type:text required:true
+fse field add name type:text
 fse field add email type:email required:true
-fse field add message type:textarea required:true maxLength:1000
+fse field add message type:text required:true maxLength:1000
 fse field remove phone
-```
-
----
-
-### update
-
-Update configuration values.
-
-```bash
-# Update POST endpoint
-fse update endpoint <url>
-
-# Update public key
-fse update key <base64url>
-
-# Update form origin
-fse update origin <name>
-```
-
-**Examples:**
-
-```bash
-fse update endpoint https://your-api.example.com/submit
-fse update key ABcdEfGhIjKlMnOpQrStUvWxYz0123456789_
-fse update origin contact-form
 ```
 
 ---
@@ -105,27 +75,66 @@ fse doctor
 
 Checks:
 - Config file exists
-- Endpoint is valid HTTPS URL
+- Endpoint uses HTTPS
 - Public key format is valid
 - Fields are properly defined
 
 ---
 
+### reset
+
+Remove and re-scaffold.
+
+```bash
+fse reset
+```
+
+---
+
+### --status
+
+Show current configuration.
+
+```bash
+fse --status
+```
+
+---
+
+### --help
+
+Show help information.
+
+```bash
+fse --help
+```
+
+---
+
 ### --version
 
-Show version.
+Show version number.
 
 ```bash
 fse --version
+fse version
 ```
 
-Output: `v3.4.0`
+---
+
+### --about
+
+Show project information.
+
+```bash
+fse --about
+```
 
 ---
 
 ### --aliases
 
-Show command shorthand aliases.
+Show shorthand aliases.
 
 ```bash
 fse --aliases
@@ -133,16 +142,18 @@ fse --aliases
 
 | Short | Canonical |
 |-------|-----------|
-| `-qc` | configure quick |
-| `-f` | field |
-| `-u` | update |
+| `-i`  | `init`    |
+| `-r`  | `reset`   |
+| `-f`  | `field`   |
+| `-s`  | `set`     |
 
 ---
 
-### Shorthand flags
+## Shorthand flags
 
 | Flag | Description |
 |------|-------------|
-| `-qc` | Quick configure (same as `fse configure quick`) |
+| `-i` | Scaffold project (same as `fse init`) |
+| `-r` | Re-scaffold (same as `fse reset`) |
 | `-f` | Field management (same as `fse field`) |
-| `-u` | Update config (same as `fse update`) |
+| `-s` | Configure endpoint/key (same as `fse set`) |

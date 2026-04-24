@@ -43,10 +43,11 @@ Store the private key somewhere safe. You'll use the public key in config.
 ### 3. Configure
 
 ```bash
-fse configure quick
+fse set endpoint
+fse set key
 ```
 
-You'll be prompted for your endpoint URL and public key.
+You'll be prompted for your endpoint URL and public key. Use `fse --status` to check your config.
 
 ### 4. Verify
 

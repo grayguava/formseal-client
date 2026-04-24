@@ -1,7 +1,7 @@
-# ui/bodies.py
+# fse/cli/ui/bodies.py
 # Body output functions
 
-from ui.styles import C, D, G, O, R, S, W, Y, BOLD, RED
+from fse.cli.ui.styles import C, D, G, O, R, S, W, Y, BOLD, RED, XFATAL
 
 
 def br():
@@ -14,7 +14,7 @@ def badge(label, color):
 
 def fail(msg):
     br()
-    print(f"{badge('❌', RED)} {msg}")
+    print(f"{XFATAL} {msg}")
     br()
     raise SystemExit(1)
 
@@ -48,4 +48,4 @@ def info(msg):
 
 
 def warn(msg):
-    print(f"{Y}⚠️ {R}{msg}")
+    print(f"{Y}⚠ {R}{msg}")

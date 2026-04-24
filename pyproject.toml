@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "formseal-embed"
-version = "3.3.0"
+version = "0.0.0"
 description = "Encrypted contact form that never exposes plaintext to your server"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -14,14 +14,17 @@ authors = [
 ]
 
 [project.scripts]
-fse = "cli.fse:main"
+fse = "fse.fse:main"
 
 [tool.setuptools]
 packages = [
-    "cli",
-    "cli.commands",
-    "cli.ui",
+    "fse",
+    "fse.cli",
+    "fse.cli.commands",
+    "fse.cli.commands.general",
+    "fse.cli.general",
+    "fse.cli.ui",
 ]
 
 [tool.setuptools.package-data]
-cli = []
+fse = ["src/**"]

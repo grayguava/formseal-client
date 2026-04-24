@@ -1,4 +1,4 @@
-# ui/styles.py
+# fse/cli/ui/styles.py
 # All ANSI colors and styles
 
 import os
@@ -42,6 +42,6 @@ R = RESET
 
 HEAD = "🦨"
 OK = "✨"
-TICK = "✔️"
-CROSS = "❌"
-ERR = "😵‍💫"
+TICK = "✔"
+CROSS = "✖"
+XFATAL = "❌"

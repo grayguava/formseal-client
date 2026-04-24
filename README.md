@@ -1,3 +1,5 @@
+# formseal-embed
+
 <p align="center">
   <img src="fse.png" alt="formseal">
 </p>
@@ -5,7 +7,6 @@
 <p align="center">
   <img src="https://img.shields.io/pypi/v/formseal-embed?style=flat&label=pypi&labelColor=1e293b&color=3776ab">
   <img src="https://img.shields.io/badge/license-MIT-fc8181?style=flat&labelColor=1e293b">
-  <img src="https://img.shields.io/github/actions/workflow/status/grayguava/formseal-fetch/publish.yml">
   <img src="https://img.shields.io/badge/formseal-ecosystem-10b981?style=flat&labelColor=1e293b">
 </p>
 
@@ -15,9 +16,9 @@
 
 ---
 
-Form submissions are encrypted in the browser using X25519 sealed boxes before reaching any endpoint. The backend receives and stores ciphertext prefixed with `formseal.` Decryption is operator-controlled.
+Form submissions are encrypted in the browser using X25519 sealed boxes before reaching your endpoint. The backend stores ciphertext prefixed with `formseal.`. Decryption is operator-controlled.
 
-formseal is not a hosted service, dashboard, or SaaS product. It is a drop-in client-side utility.
+formseal-embed is not a hosted service, dashboard, or SaaS. It is a drop-in client-side utility.
 
 ---
 
@@ -37,47 +38,47 @@ pip install formseal-embed
 
 ---
 
-## Configure
+## Quick start
 
 ```bash
-fse configure quick
+fse init
+fse set endpoint
+fse set key
+fse --status
 ```
 
-You'll be prompted for your POST endpoint and public key. See [Getting started](./docs/getting-started.md) for key generation.
-
----
-
-## Security guarantee
-
-> If the POST endpoint is fully compromised, seized, or maliciously operated, previously submitted form data remains confidential.
-
-Encryption happens in the browser. The backend stores ciphertext only. Decryption keys never exist in the backend environment. A backend compromise yields no recoverable plaintext.
-
----
-
-## Threat model
-
-formseal is for environments where:
-
-- The hosting provider or backend may be compromised
-- The backend must be treated as hostile
-- Data seizure is a realistic concern
-- Retroactive disclosure must be prevented
-
-The priority is **backward confidentiality** — protecting already-submitted data — not convenience or real-time administration.
+See [Getting started](./docs/getting-started.md) for key generation.
 
 ---
 
 ## How it works
 
+```
+Browser (formseal-embed)
+       │
+       ▼ (encrypted submissions)
+  Your server / endpoint
+       │
+       ▼ (fsf fetch — optional)
+  Your local machine
+```
+
 On submit, formseal:
 
-1. Collects field values from your form by `name` attribute
-2. Validates them against your field rules (in `fields.jsonl`)
-3. Seals the payload with `crypto_box_seal` (Curve25519 + XSalsa20-Poly1305)
-4. POSTs ciphertext (prefixed `formseal.`) to your configured endpoint
+1. Collects field values by `name` attribute
+2. Validates against `fields.jsonl`
+3. Seals the payload with `crypto_box_seal`
+4. POSTs ciphertext (prefixed `formseal.`) to your endpoint
 
-Your endpoint stores the ciphertext. Only the holder of the private key can decrypt it.
+Your endpoint stores the ciphertext. Only the holder of the private key can decrypt.
+
+---
+
+## Security guarantee
+
+> If the endpoint is fully compromised, seized, or maliciously operated, previously submitted form data remains confidential.
+
+Encryption happens in the browser. The backend stores ciphertext only. Decryption keys never exist in the backend environment. A backend compromise yields no recoverable plaintext.
 
 ---
 
@@ -144,19 +145,17 @@ The entire object is sealed with `crypto_box_seal`. Your endpoint receives ciphe
 
 Fields are defined in `fields.jsonl` (one JSON object per line):
 
-```
+```json
 {"name": {"required": true, "maxLength": 100}}
 {"email": {"required": true, "type": "email"}}
 {"message": {"required": true, "maxLength": 1000}}
 ```
 
-Use the CLI to manage fields:
+Manage fields with the CLI:
 
 ```bash
-fse configure field add phone type:tel required:false
-fse configure field required name true
-fse configure field maxLength message 500
-fse configure field remove company
+fse field add phone type:tel required:false
+fse field remove company
 ```
 
 ---
@@ -172,7 +171,7 @@ fse configure field remove company
 
 ---
 
-## What formseal does not do
+## What formseal-embed does not do
 
 - No admin dashboard or inbox UI
 - No hosted service
@@ -193,7 +192,6 @@ These are intentional.
 - [Integration → JavaScript](./docs/integration/javascript.md)
 - [Deployment → Endpoint](./docs/deployment/endpoint.md)
 - [Deployment → Decryption](./docs/deployment/decryption.md)
-- [Deployment → Versioning](./docs/deployment/versioning.md)
 
 ---
 

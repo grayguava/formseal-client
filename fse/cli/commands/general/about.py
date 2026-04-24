@@ -1,7 +1,7 @@
-# commands/about.py
+# fse/cli/commands/general/about.py
 # About command - shows project info
 
-from ui import br, header, C, G, W, D, R
+from fse.cli.ui import br, header, C, G, W, R
 
 
 def run():

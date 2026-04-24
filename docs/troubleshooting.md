@@ -40,7 +40,7 @@ fse init
 **Solution**:
 
 ```bash
-fse update endpoint https://your-api.example.com/submit
+fse set endpoint https://your-api.example.com/submit
 ```
 
 ### "invalid X25519 public key length"

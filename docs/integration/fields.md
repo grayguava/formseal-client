@@ -43,7 +43,7 @@ The key must exactly match the HTML `name`. Inputs without a matching field key 
 fse field add phone type:tel required:false
 
 # Remove field
-fse field rm company
+fse field remove company
 
 # Modify field
 fse -f phone required:true
